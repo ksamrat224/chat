@@ -14,7 +14,11 @@ export default function App() {
 
   useEffect(() => {
     socket.current = connectWS();
-    socket.current.on("current", () => {});
+    socket.current.on("connect", () => {
+      socket.current.on("roomNotice", (userName) => {
+        console.log(`${userName} joined the group chat`);
+      });
+    });
   }, []);
 
   // FORMAT TIMESTAMP TO HH:MM FOR MESSAGES
