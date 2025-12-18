@@ -15,39 +15,38 @@ export default function App() {
   useEffect(() => {
     socket.current = connectWS();
 
-    const handleRoomNotice = (userName) => {
-      console.log(`${userName} joined to group!`);
-    };
-
-    const handleChatMessage = (msg) => {
-      console.log("msg", msg);
-      setMessages((prev) => [...prev, msg]);
-    };
-
-    const handleTyping = (userName) => {
-      setTypers((prev) => {
-        const isExist = prev.find((typer) => typer === userName);
-        if (!isExist) {
-          return [...prev, userName];
-        }
-        return prev;
+    socket.current.on("connect", () => {
+      socket.current.on("roomNotice", (userName) => {
+        console.log(`${userName} joined to group!`);
       });
-    };
 
-    const handleStopTyping = (userName) => {
-      setTypers((prev) => prev.filter((typer) => typer !== userName));
-    };
+      socket.current.on("chatMessage", (msg) => {
+        // push to existing messages list
+        console.log("msg", msg);
+        setMessages((prev) => [...prev, msg]);
+      });
 
-    socket.current.on("roomNotice", handleRoomNotice);
-    socket.current.on("chatMessage", handleChatMessage);
-    socket.current.on("typing", handleTyping);
-    socket.current.on("stopTyping", handleStopTyping);
+      socket.current.on("typing", (userName) => {
+        setTypers((prev) => {
+          const isExist = prev.find((typer) => typer === userName);
+          if (!isExist) {
+            return [...prev, userName];
+          }
+
+          return prev;
+        });
+      });
+
+      socket.current.on("stopTyping", (userName) => {
+        setTypers((prev) => prev.filter((typer) => typer !== userName));
+      });
+    });
 
     return () => {
-      socket.current.off("roomNotice", handleRoomNotice);
-      socket.current.off("chatMessage", handleChatMessage);
-      socket.current.off("typing", handleTyping);
-      socket.current.off("stopTyping", handleStopTyping);
+      socket.current.off("roomNotice");
+      socket.current.off("chatMessage");
+      socket.current.off("typing");
+      socket.current.off("stopTyping");
     };
   }, []);
 
@@ -79,7 +78,8 @@ export default function App() {
     e.preventDefault();
     const trimmed = inputName.trim();
     if (!trimmed) return;
-    //join room
+
+    // join room
     socket.current.emit("joinRoom", trimmed);
 
     setUserName(trimmed);
