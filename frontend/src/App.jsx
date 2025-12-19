@@ -174,7 +174,7 @@ export default function App() {
                 <div className="h-11 w-11 rounded-full bg-white/80 border border-black/10 flex items-center justify-center text-black/70 font-medium text-base shadow-sm">
                   {userName.charAt(0).toUpperCase()}
                 </div>
-                <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 bg-black/80 border-2 border-white rounded-full"></div>
+                <div className="absolute -bottom-0.5 -right-0.5 h-3 w-3 bg-black/80 border-2 border-white rounded-full bg-green-600"></div>
               </div>
               <div>
                 <div className="text-sm font-medium text-black/70">
