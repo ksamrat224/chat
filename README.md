@@ -2,8 +2,8 @@
 
 A modern, minimalist real-time chat application built with React, Socket.IO, and a beautiful frosted-glass UI inspired by Nothing OS design language.
 
-![Chat Login](./frontend/public/pic11.png)
-![Chat Interface](./frontend/public/pic12.png)
+![Chat Login](./frontend/public/pic12.png)
+![Chat Interface](./frontend/public/pic11.png)
 ![Active Chat](./frontend/public/pic13.png)
 
 ## ✨ Features
